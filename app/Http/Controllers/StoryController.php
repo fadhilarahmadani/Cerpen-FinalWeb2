@@ -37,6 +37,22 @@ class StoryController extends Controller
         return view('welcome', compact('stories'));
     }
 
+    public function showCategoryStories($id)
+    {
+        // Ambil kategori berdasarkan ID
+        $category = Category::find($id);
+
+        if (!$category) {
+            abort(404);
+        }
+
+        // Ambil stories berdasarkan kategori ID
+        $stories = Story::where('category_id', $id)->get();
+
+        // Tampilkan view dengan stories yang diambil
+        return view('welcome', compact('stories', 'category'));
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -68,6 +84,12 @@ class StoryController extends Controller
         $story = Story::with('category')->findOrFail($id);
         return view('admin.show', compact('story'));
     }
+    public function read($id)
+    {
+        $story = Story::with('category')->findOrFail($id);
+        return view('user.read', compact('story'));
+    }
+
 
     public function edit($id)
     {

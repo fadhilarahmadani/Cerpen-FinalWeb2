@@ -1,4 +1,4 @@
-@include('layouts.app');
+@include('layouts.sidebar');
 
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +76,15 @@
             {{ $stories->links() }}
         </div>
     </main> --}}
-
+    <div class="w-full px-6">
+        <form method="POST" action="/logout">
+            @csrf
+            <button type="submit" class="flex items-center w-full p-3 rounded-md">
+                <i class="mr-4 text-lg ri-logout-circle-line"></i>
+                <span class="font-semibold">Logout</span>
+            </button>
+        </form>
+    </div>
 </body>
 </html>
 

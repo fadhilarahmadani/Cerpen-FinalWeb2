@@ -51,58 +51,61 @@
         </div>
       </section>
       {{-- CTA end --}}
-          {{-- kategories start --}}
-    <section class="py-8">
-        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex justify-around space-x-4">
-                <!-- Horror -->
-                <div class="flex flex-col items-center space-y-2">
-                    <div class="p-6 text-white rounded-full bg-custom">
-                        <i class="text-3xl fas fa-ghost"></i>
-                    </div>
-                    <span class="text-lg font-semibold">Horror</span>
-                </div>
+{{-- kategories start --}}
+<section class="py-8">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="flex justify-around space-x-4">
+            <!-- Horror -->
+            <div class="flex flex-col items-center space-y-2">
+                <a href="{{ url('stories/1') }}" class="p-6 text-white rounded-full bg-custom">
+                    <i class="text-3xl fas fa-ghost"></i>
+                </a>
+                <span class="text-lg font-semibold">Horror</span>
+            </div>
 
-                <!-- Comedy -->
-                <div class="flex flex-col items-center space-y-2">
-                    <div class="p-6 text-white rounded-full bg-custom">
-                        <i class="text-3xl fas fa-laugh-squint"></i>
-                    </div>
-                    <span class="text-lg font-semibold">Comedy</span>
-                </div>
+            <!-- Comedy -->
+            <div class="flex flex-col items-center space-y-2">
+                <a href="{{ url('stories/2') }}" class="p-6 text-white rounded-full bg-custom">
+                    <i class="text-3xl fas fa-laugh-squint"></i>
+                </a>
+                <span class="text-lg font-semibold">Comedy</span>
+            </div>
 
-                <!-- Romantic -->
-                <div class="flex flex-col items-center space-y-2">
-                    <div class="p-6 text-white rounded-full bg-custom">
-                        <i class="text-3xl fas fa-heart"></i>
-                    </div>
-                    <span class="text-lg font-semibold">Romantic</span>
-                </div>
+            <!-- Romantic -->
+            <div class="flex flex-col items-center space-y-2">
+                <a href="{{ url('stories/3') }}" class="p-6 text-white rounded-full bg-custom">
+                    <i class="text-3xl fas fa-heart"></i>
+                </a>
+                <span class="text-lg font-semibold">Romantic</span>
+            </div>
 
-                <!-- Adventure -->
-                <div class="flex flex-col items-center space-y-2">
-                    <div class="p-6 text-white rounded-full bg-custom">
-                        <i class="text-3xl fas fa-hiking"></i>
-                    </div>
-                    <span class="text-lg font-semibold">Adventure</span>
-                </div>
+            <!-- Adventure -->
+            <div class="flex flex-col items-center space-y-2">
+                <a href="{{ url('stories/4') }}" class="p-6 text-white rounded-full bg-custom">
+                    <i class="text-3xl fas fa-hiking"></i>
+                </a>
+                <span class="text-lg font-semibold">Adventure</span>
+            </div>
 
-                <!-- Happy -->
-                <div class="flex flex-col items-center space-y-2">
-                    <div class="p-6 text-white rounded-full bg-custom">
-                        <i class="text-3xl fas fa-smile-beam"></i>
-                    </div>
-                    <span class="text-lg font-semibold">Happy</span>
-                </div>
+            <!-- Happy -->
+            <div class="flex flex-col items-center space-y-2">
+                <a href="{{ url('stories/5') }}" class="p-6 text-white rounded-full bg-custom">
+                    <i class="text-3xl fas fa-smile-beam"></i>
+                </a>
+                <span class="text-lg font-semibold">Happy</span>
             </div>
         </div>
-    </section>
-    {{-- kategories end --}}
+    </div>
+</section>
+{{-- kategories end --}}
+
       {{-- stories start --}}
-      <h1 class="text-center bold-24">Pilihan Cerita Untukmu</h1>
-      <div class="container grid grid-cols-4 gap-4 mx-auto max-w-xxl">
+      <h1 class="text-center bold-24" style="font-size: 2.5rem; height: 15vh; display: flex; align-items: center; justify-content: center; margin: 0;">
+        Pilihan Cerita Untukmu
+    </h1>
+          <div class="container grid grid-cols-4 gap-4 mx-auto max-w-xxl">
         @foreach($stories as $story)
-        <a href="{{ route('story.show', $story->id) }}" class="block group">
+        <a href="{{ route('user.read', $story->id) }}" class="block group">
             <img
                 src="{{ asset('storage/images/stories/' . $story->image) }}"
                 alt="{{ $story->title }}"

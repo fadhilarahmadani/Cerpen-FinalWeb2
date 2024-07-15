@@ -1,3 +1,5 @@
+@include('layouts.sidebar');
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +74,7 @@
                                             @method('DELETE')
                                             @csrf
                                             <button type="button" onclick="confirmDelete('{{ $story->id }}')" class="px-2 py-0 btn btn-danger">
-                                                <i class="fas fa-trash-alt"></i> 
+                                                <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
                                     </td>
