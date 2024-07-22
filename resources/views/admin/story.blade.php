@@ -1,4 +1,5 @@
 @include('layouts.sidebar');
+{{-- @include('layouts.app'); --}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <h3 class="my-4 text-center">DAFTAR LIST CERPEN</h3>
+                    <h3 class="my-4 text-center">Short Stories List</h3>
                     <hr>
                 </div>
 
@@ -27,45 +28,35 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    <a href="{{ route('story.create') }}" class="px-2 py-0 mb-3 btn btn-primary">
+                    <a href="{{ route('story.create') }}" class="px-4 py-2 mb-3 btn btn-primary">
                         <i class="mr-2 fas fa-plus"></i>Create New Story
                     </a>
-                    <table class="table table-bordered">
-                        <thead class="table-success">
-                            <tr class="text-center">
-                                <th class="text-center" scope="col">No</th>                                <th scope="col">Image</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Category</th>
-                                {{-- <th scope="col">Description</th>
-                                <th scope="col">Content</th> --}}
-                                <th scope="col">Action</th>
 
-                            </tr>
-                        </thead>
+                    <div class="bg-white border mt-7 border-borderPrimary rounded-xl">
 
-                        <tbody class="table-group-divider">
-                            @foreach($stories as $i => $story)
-                                <tr>
-                                    <td style="width: 30px;">{{ $i+1 }}</td>
-                                    <td style="width: 50px;"><img src="{{ asset('storage/images/stories/' . $story->image) }}" alt="{{ $story->title }}" width="70px" height="100px"></td>
+                        <table class="w-full table-fixed">
+                            <thead class="text-left" style="background-color: #ede4d3;">
+
+                                <tr class="border-b border-borderPrimary">
+                                    {{-- <th class="text-center" scope="col">No</th> --}}
+                                    <th class="w-2/12 py-4 text-center ">Image</th>
+                                    <th class="w-3/12">Title</th>
+                                    <th class="w-3/12">Category</th>
+                                    <th class="w-2/12">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-row-group font-semibold">
+                                @foreach($stories as $i => $story)
+                                <tr class="border-b border-borderPrimary">
+                                    {{-- <td style="width: 30px;">{{ $i+1 }}</td> --}}
+                                    <td class="px-16 py-2"><img src="{{ asset('storage/images/stories/' . $story->image) }}" alt="{{ $story->title }}" width="70px" height="100px"></td>
                                     <td style="width: 150px;">{{ $story->title }}</td>
                                     <td style="width: 100px;">{{ $story->category->name }}</td>
-                                    {{-- <td>{{ Str::limit($story->description, 100) }}</td>
-                                    <td>
-                                        {{ Str::limit($story->description, 100) }}
-                                        @if (strlen($story->description) > 100)
-                                            <a href="{{ route('story.show', $story->id) }}">Selengkapnya</a>
-                                        @endif
-                                    </td>                                    <td>
-                                        {{ Str::limit($story->content, 100) }}
-                                        @if (strlen($story->content) > 100)
-                                            <a href="{{ route('story.show', $story->id) }}">Selengkapnya</a>
-                                        @endif
-                                    </td> --}}
-                                    <td style="width: 110px;">
-                                        <a href="{{ route('story.show', $story->id) }}" class="px-2 py-0 btn btn-success">
+                                    <td style="width: 100px;">
+                                        {{-- <a href="{{ route('story.show', $story->id) }}" class="px-2 py-0 btn btn-success">
                                             <i class="fas fa-info-circle"></i>
-                                        </a>
+                                        </a> --}}
                                         <a href="{{ route('story.edit', $story->id) }}" class="px-2 py-0 btn btn-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -83,8 +74,12 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-4">
+                        {{ $stories->links() }}
                     </div>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckPremium;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'is_admin' => IsAdmin::class
+        ]);
+    })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'premium' => CheckPremium::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

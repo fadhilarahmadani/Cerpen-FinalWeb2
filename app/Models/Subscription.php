@@ -1,21 +1,20 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Story extends Model
+class Subscription extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title', 'category_id', 'description', 'content','image', 'is_premium'
+        'user_id', 'start_date', 'end_date', 'status'
     ];
 
-    public function category()
+    public function user()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(User::class);
     }
 }

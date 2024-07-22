@@ -11,10 +11,10 @@ class StoryController extends Controller
 {
     public function index()
     {
-        $stories = Story::all();
-        return view('admin.story', [
-            'stories' => $stories
-        ]);
+        $max_data = 8;
+        $stories = Story::orderBy('id', 'asc')->paginate($max_data);
+
+        return view('admin.story', ['stories' => $stories]);
     }
 
     public function search(Request $request)
@@ -26,33 +26,46 @@ class StoryController extends Controller
             ->orWhereHas('category', function($q) use ($query) {
                 $q->where('name', 'LIKE', "%$query%");
             })
-            ->get();
+            ->paginate(8) // Gunakan paginate di sini
+            ->withQueryString();
+
 
         return view('welcome', compact('stories'));
+    }
+    public function searchAdmin(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Mencari cerita berdasarkan judul atau kategori
+        $stories = Story::where('title', 'LIKE', "%$query%")
+            ->orWhereHas('category', function($q) use ($query) {
+                $q->where('name', 'LIKE', "%$query%");
+            })
+            ->paginate(8) // Gunakan paginate di sini
+            ->withQueryString();
+
+
+        return view('admin.story', compact('stories'));
     }
 
     public function user()
     {
-        $stories = Story::all(); // atau gunakan pagination seperti Story::paginate(10)
-        return view('welcome', compact('stories'));
+        $max_data = 8;
+        $stories = Story::orderBy('id', 'asc')->paginate($max_data);
+
+        return view('welcome', ['stories' => $stories]);
     }
 
-    public function showCategoryStories($id)
+    public function showCategoryStories($categoryId)
     {
-        // Ambil kategori berdasarkan ID
-        $category = Category::find($id);
+        $max_data = 8;
 
-        if (!$category) {
-            abort(404);
-        }
+        $stories = Story::where('category_id', $categoryId)
+            ->paginate($max_data)
+            ->withQueryString();
 
-        // Ambil stories berdasarkan kategori ID
-        $stories = Story::where('category_id', $id)->get();
-
-        // Tampilkan view dengan stories yang diambil
-        return view('welcome', compact('stories', 'category'));
+        return view('welcome', ['stories' => $stories]);
     }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -84,11 +97,22 @@ class StoryController extends Controller
         $story = Story::with('category')->findOrFail($id);
         return view('admin.show', compact('story'));
     }
+    // public function read($id)
+    // {
+    //     $story = Story::with('category')->findOrFail($id);
+    //     return view('user.read', compact('story'));
+    // }
     public function read($id)
     {
-        $story = Story::with('category')->findOrFail($id);
+        $story = Story::findOrFail($id);
+
+        if ($story->is_premium && !auth()->user()->is_premium) {
+            return redirect()->route('subscription.form')->with('error', 'You need a premium subscription to read this story.');
+        }
+
         return view('user.read', compact('story'));
     }
+
 
 
     public function edit($id)
@@ -121,10 +145,17 @@ class StoryController extends Controller
         $story->description = $validatedData['description'];
         $story->content = $validatedData['content'];
 
+        // Update is_premium based on checkbox
+        $story->is_premium = $request->has('is_premium') ? 1 : 0;
+
+        // Handle image upload if provided
         if ($request->hasFile('image')) {
+            // Delete old image if exists
+            Storage::disk('public')->delete('images/stories/' . $story->image);
+
+            // Store new image
             $imagePath = $request->file('image')->store('images/stories', 'public');
-            $imageFileName = basename($imagePath);
-            $story->image = $imageFileName;
+            $story->image = basename($imagePath);
         }
 
         $story->save();

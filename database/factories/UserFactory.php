@@ -25,13 +25,13 @@ class UserFactory extends Factory
     {
         return [
             // 'name' => fake()->name(),
-            'name' => 'admin',
+            'name' => 'dila',
             // 'email' => fake()->unique()->safeEmail(),
-            'email' => 'admin@gmail.com',
+            'email' => 'dila@gmail.com',
             // 'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('1111'),
-            'is_admin' => true,
-        
+            'is_admin' => false,
+
             // 'remember_token' => Str::random(10),
         ];
     }
